@@ -6,6 +6,7 @@ from comeback_ai.api.main import app
 def test_health_and_risk(monkeypatch, tmp_path):
     monkeypatch.setenv("COMEBACK_ARTIFACT_DIR", str(tmp_path / "artifacts"))
     monkeypatch.setenv("COMEBACK_KNOWLEDGE_DIR", "knowledge")
+    monkeypatch.setenv("GROQ_API_KEY", "")
     from comeback_ai.config import get_settings
 
     get_settings.cache_clear()
