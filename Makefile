@@ -1,4 +1,7 @@
-.PHONY: install train api ui test lint docker
+.PHONY: run install train api ui test lint docker
+
+run:
+	python run.py
 
 install:
 	python -m pip install -e ".[ui,dev]"
