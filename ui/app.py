@@ -9,6 +9,17 @@ st.title("⚡ Comeback AI")
 st.caption("Your academic comeback, backed by data.")
 st.info("Learning/demo system: synthetic training data, never a basis for real student decisions.")
 
+with st.sidebar:
+    st.header("System status")
+    try:
+        health = httpx.get(f"{API_URL}/health", timeout=2)
+        health.raise_for_status()
+        st.success("API connected")
+    except httpx.HTTPError:
+        st.error("API unavailable")
+    st.markdown("[Interactive API docs](http://localhost:8000/docs)")
+    st.caption("Comeback AI runs locally. Groq is optional.")
+
 with st.form("profile"):
     left, right = st.columns(2)
     with left:
@@ -48,6 +59,7 @@ if submitted:
             result["risk_level"].title(),
             f"{result['risk_probability']:.0%}",
         )
+        st.progress(result["risk_probability"], text="Estimated risk probability")
         st.subheader("What influenced this signal")
         for factor in result["top_factors"]:
             icon = "↑" if factor["direction"] == "increases risk" else "↓"
